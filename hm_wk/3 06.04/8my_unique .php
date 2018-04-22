@@ -5,7 +5,7 @@
        $temp_array = [];
        foreach ($array as &$v) {
            if (!isset($temp_array[$v[$key]]))
-           $temp_array[$v[$key]] =& $v;
+           $temp_array[$v[$key]] =&$v;
        }
        $array = array_values($temp_array);
        return $array;
