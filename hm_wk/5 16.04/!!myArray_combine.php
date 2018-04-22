@@ -7,13 +7,12 @@ function myArray_combine($a, $b)
 {
 $c = array();
     
-    foreach ($b as $keyb => $value) {
-    	foreach ($a as $keya => $val) {
-         $c[$val] = $value[$keyb];
+    foreach ($b as $value) {
+    	foreach ($a as $key => $val) {
+         $c[$val] = $value;
      }
-
+     return $c;
     }
-    return $c;
 }
 
 $a = array('green', 'red', 'yellow');
