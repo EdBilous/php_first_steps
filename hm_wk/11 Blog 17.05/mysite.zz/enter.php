@@ -3,10 +3,9 @@
 <?php
    if (isset($_GET) && key_exists('logout', $_GET)) {
        session_destroy();
-       header('Location: /enter.php');
+       header('Location: /');
        exit;
    }
-   var_dump($_POST);
    if (isset($_POST) && !empty($_POST)) {
    $userManager->Login($_POST);
    }
@@ -56,9 +55,9 @@
                   <button type="submit" class="btn btn-primary">Вход</button>
                </div>
             </div>
-            <div class="form-group">
-               <div class="help-block text-danger">
-                  <a href="registration.php" class="text">РЕГИСТРАЦИЯ</a>
+       <div class="nav-item" data-placement="right">
+         <a class="nav-link" href="/registration.php">
+         <i style="color: brown" class="fa fas fa-user-plus"></i> РЕГИСТРАЦИЯ</a>
                </div>
             </div>
          </form>

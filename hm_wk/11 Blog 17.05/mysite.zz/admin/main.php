@@ -16,7 +16,7 @@
                 <div class="card text-white bg-primary o-hidden h-100">
                     <div class="card-body">
                         <div class="card-body-icon">
-                            <i class="fa fa-fw fa-plus"></i>
+                            <i class="fa fa-fw fa-newspaper-o"></i>
                         </div>
                         <div class="mr-5">Новая статья</div>
                     </div>

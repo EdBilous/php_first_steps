@@ -27,7 +27,8 @@
    }
    ?>
 <div class="container">
-   <p style="color: green">Результат поиска по запросу : "<?php echo $_POST['query'] ?>"</p>
+   <p style="color: blue">Результат поиска по запросу "<?php echo $_POST['query'] ?>" :</p>
+   <?php if ($search_result != null) : ?>
    <table class="table table-bordered" width="100%" cellspacing="0">
       <tr>
          <th>№</th>
@@ -41,12 +42,16 @@
          <td><?= $count++; ?></td>
          <td>
             <a style="color: blue" href="singlearticle.php?title=<?= $article['title']; ?>&content=<?= $article['content']; ?>&sub_title=<?= $article['sub_title']; ?>&author=<?= $article['author']; ?>&date=<?= $article['created_at']; ?>"">
-            <?= $article['title']; ?>
+               <?= $article['title']; ?>
          </td>
          <td><?= $article['sub_title']; ?></td>
          <td><?= $userManager->getAuthor($article['author'])->login; ?></td>
          <?php endforeach; ?>
          <hr>
    </table>
+   <?php else: ?>
+   <p style="color: red">ничего не найдено, попробуйте изменить запрос</p>
+   <?php endif; ?>
+   <a style="color: brown" href="javascript:history.back()" ><<назад</a>
 </div>
 <?php require_once 'footer.php';?>

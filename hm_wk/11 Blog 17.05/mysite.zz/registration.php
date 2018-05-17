@@ -15,7 +15,7 @@ if ($_POST) {
                 <div class="col-lg-8 col-md-10 mx-auto">
                     <div class="site-heading">
                         <h1>Custom Blog</h1>
-                        <span class="subheading">Ргистрация</span>
+                        <span class="subheading">Регистрация</span>
                     </div>
                 </div>
             </div>
@@ -71,9 +71,9 @@ if ($_POST) {
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
-                    <div id="success">
+                    <div id="">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary" value="">Отправить</button>
+                            <p><button type="submit" class="btn btn-primary" value="">Отправить</button></p>
                             <p class="help-block text-danger"></p>
                         </div>
                 </form>

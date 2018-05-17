@@ -18,14 +18,21 @@
       </ul>
       <?php viewSearchForm(); ?>
       <ul class="navbar-nav">
-      <li class="nav-item">
-         <a class="nav-link" href="/admin/main.php">Админ</a>
+       <li class="nav-item" data-placement="right">
+         <a class="nav-link" href="/admin/main.php">
+         <i class="fa fa-fw fa-user"></i>Админ</a>
       </li>
-      <ul class="navbar-nav">
-         <li class="nav-item">
-            <a class="nav-link" href="/enter.php?logout">Выход</a>
-         </li>
-         </li>
-      </ul>
+      <?php if (isset($_SESSION['access']) && $_SESSION['access']): ?>
+      <li class="nav-item" data-placement="right">
+         <a class="nav-link" href="/enter.php?logout">
+         <i class="fa fa-fw fa-sign-out"></i>Выход</a>
+      </li>
+      <?php else: ?>
+       <li class="nav-item" data-placement="right">
+         <a class="nav-link" href="/registration.php">
+         <i class="fas fa fa-user-plus"></i>Регистрация</a>
+      </li>
+      <?php endif; ?>
+       </ul>
    </div>
 </nav>

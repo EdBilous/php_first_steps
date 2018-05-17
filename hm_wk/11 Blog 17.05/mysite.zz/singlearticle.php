@@ -27,7 +27,7 @@
             <p><?php echo $value['content'];?>     
                <?php $date = DateTime::createFromFormat('Y-m-d H:i:s', $value['date']); ?>
             <p class="post-meta">Пост опубликован: <?= $date->format('F d, Y'); ?></p>
-            <sub><a href="javascript:history.back()" title="...">назад</a></sub>
+            <a style="color: brown" href="javascript:history.back()" ><<назад</a>
          </div>
       </div>
    </div>
