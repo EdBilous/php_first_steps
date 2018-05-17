@@ -3,17 +3,17 @@
 namespace Classes;
 
 use PDO;
-    
-    /**
-     * будет родительским классом для классов: "User" и "Article".
-     */
+
+/**
+ * будет родительским классом для классов: "User" и "Article".
+ */
 class TablesDb
 {
     /**
      * @var \PDO $connect
      */
     private $connect;
-
+    
     /**
      * User
      */
@@ -22,7 +22,7 @@ class TablesDb
     // private $login;
     // private $email;
     // private $password;
-
+    
     /**
      * Article
      */
@@ -32,7 +32,7 @@ class TablesDb
     // private $created_at;
     // private $url;
     // private $author;
-
+    
     /**
      * Users constructor.
      *
@@ -42,7 +42,7 @@ class TablesDb
     {
         $this->connect = $connect;
     }
-
+    
     /**
      * Set User
      *
@@ -68,9 +68,9 @@ class TablesDb
     //     $this->url        = $post['url'];
     //     $this->author     = $post['author'];
     // }
-
+    
     /**
-     * Количество пользователей и статей
+     * Количество пользователей и статей в БД
      * @param string
      */
     public function getCountTab($tab)

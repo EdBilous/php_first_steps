@@ -10,13 +10,13 @@ class User // extends TablesDb
      * @var \PDO $connect
      */
     private $connect;
-
+    
     // private $name;
     // private $last_name;
     // private $login;
     // private $email;
     // private $password;
-
+    
     /**
      * Users constructor.
      *
@@ -26,7 +26,7 @@ class User // extends TablesDb
     {
         $this->connect = $connect;
     }
-
+    
     public function getAllAuthor()
     {
         if ($this->connect) {
@@ -38,7 +38,7 @@ class User // extends TablesDb
         }
         return false;
     }
-
+    
     /**
      * User
      * @param string
@@ -50,18 +50,18 @@ class User // extends TablesDb
                 FROM users
                 WHERE id='$id'
                 ";
-
+            
             return $this->connect->query($sql)->fetch(PDO::FETCH_OBJ);
         }
-
+        
         return false;
     }
-
+    
     /**
      *Вход в админку
      *вызов функции enter.php
      * @param array
-     */    
+     */
     public function Login($post)
     {
         if (!isset($post['login']) || empty($post['login'])) {
@@ -72,17 +72,17 @@ class User // extends TablesDb
             $_SESSION['error_message'] = 'Поле *Password не может быть пустым';
             return;
         }
-
+        
         $login    = htmlspecialchars($post['login']);
         $login    = trim($login);
         $password = htmlspecialchars($post['password']);
         $password = md5($password);
-
+        
         $check = null;
         if ($this->connect) {
-            $sql = "SELECT id
+            $sql    = "SELECT id
                     FROM users
-                    WHERE login='$login' and password='$password'"; 
+                    WHERE login='$login' and password='$password'";
             $rezult = $this->connect->query($sql)->fetch(PDO::FETCH_ASSOC);
             var_dump($rezult);
             if (!$rezult) {
@@ -91,21 +91,21 @@ class User // extends TablesDb
                 $check = true;
             }
         }
-            if ($check) {
-            $_SESSION['id'] = $rezult['id'];
+        if ($check) {
+            $_SESSION['id']    = $rezult['id'];
             $_SESSION['login'] = $login;
-
+            
             $_SESSION['access'] = true;
             header('Location: /admin/main.php');
             exit;
         } else {
-            $_SESSION['access'] = false;
+            $_SESSION['access']        = false;
             $_SESSION['error_message'] = 'Ошибка! Повторите попытку!';
             header('Location: /enter.php');
             exit;
         }
     }
-
+    
     /**
      *Регистрация нового пользователя
      *вызов функции registration.php
@@ -119,7 +119,7 @@ class User // extends TablesDb
         }
         if (!isset($userData['login']) || empty($userData['login'])) {
             $_SESSION['error_message'] = 'Введите логин!';
-             return;
+            return;
         }
         if (!isset($userData['email']) || empty($userData['email'])) {
             $_SESSION['error_message'] = 'Введите почту!';
@@ -127,15 +127,15 @@ class User // extends TablesDb
         }
         if ($this->insertUser($userData)) {
             $_SESSION['error_message'] = false;
-        }else{
-             $_SESSION['error_message'] = 'Ошибка регистрации!';
+        } else {
+            $_SESSION['error_message'] = 'Ошибка регистрации!';
         }
     }
-
-     /**
+    
+    /**
      * PRIVATE METOD for registerUser().
      * @param array
-     */ 
+     */
     private function insertUser($userData)
     {
         $userData['name']      = htmlspecialchars($userData['name']);
@@ -148,11 +148,11 @@ class User // extends TablesDb
         $userData['email']     = trim($userData['email']);
         $userData['password']  = htmlspecialchars($userData['password']);
         $userData['password']  = trim($userData['password']);
-
+        
         $password = md5($userData['password']);
         
         if ($this->connect) {
-            $sql = "INSERT INTO users(name, last_name, login, email, password)
+            $sql  = "INSERT INTO users(name, last_name, login, email, password)
                     VALUES ( :name,  :last_name,  :login,  :email,  :password)";
             $stmt = $this->connect->prepare($sql);
             $stmt->bindParam(':name', $userData['name'], PDO::PARAM_STR);
@@ -160,8 +160,8 @@ class User // extends TablesDb
             $stmt->bindParam(':login', $userData['login'], PDO::PARAM_STR);
             $stmt->bindParam(':email', $userData['email'], PDO::PARAM_STR);
             $stmt->bindParam(':password', $password, PDO::PARAM_STR);
-
-           return $stmt->execute();
+            
+            return $stmt->execute();
         }
     }
 }

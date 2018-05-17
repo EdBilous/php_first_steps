@@ -7,24 +7,21 @@ use PDO;
 class Article // extends TablesDb
 {
     /**
-     * перенести в TablesDb
+     * 
      * @var \PDO $connect
      */
     private $connect;
-
+    
     /**
-     * перенести в TablesDb
-     * Article constructor.
      *@param $connect
      */
     public function __construct($connect)
     {
         $this->connect = $connect;
     }
-
+    
     /**
-     * Get Articles
-     *
+     * 
      * @return array|bool
      */
     public function getArticles()
@@ -33,10 +30,10 @@ class Article // extends TablesDb
             $sql = "SELECT *
                 FROM articles
                 ";
-
+            
             return $this->connect->query($sql)->fetchAll(PDO::FETCH_OBJ);
         }
-
+        
         return false;
     }
     
@@ -45,11 +42,11 @@ class Article // extends TablesDb
      * index.php
      * @param string
      */
-    public function search($query) 
-    { 
-        $query = trim($query); 
+    public function search($query)
+    {
+        $query = trim($query);
         $query = htmlspecialchars($query);
-
+        
         if (!empty($query)) {
             if (strlen($query) < 3) {
                 echo '<p>Слишком короткий поисковый запрос.</p>';
@@ -57,22 +54,22 @@ class Article // extends TablesDb
             } else if (strlen($query) > 128) {
                 echo '<p>Слишком длинный поисковый запрос.</p>';
                 exit;
-            } else { 
+            } else {
                 $result = $this->getSearchArticle($query);
             }
             return $result;
         }
         
-    } 
-
-     /**
-     * возвращает статьи по автору для админки
+    }
+    
+    /**
+     * возвращает статьи для админки
      * admin_articles.php
      * @return array|bool
      */
     public function getAdminArticles()
     {
-        $author= $_SESSION['id'];
+        $author = $_SESSION['id'];
         
         if ($this->connect) {
             $sql = "SELECT *
@@ -83,8 +80,8 @@ class Article // extends TablesDb
         }
         return false;
     }
-     
-     /**
+    
+    /**
      * редактирование статьи
      * edit_articles.php
      * @param string
@@ -100,20 +97,20 @@ class Article // extends TablesDb
         }
         return false;
     }
-
-     /**
-     * добавление новой статьи.
+    
+    /**
+     * добавление новой статьи
      * add_articles.php
      * @param array
      */
     public function insertArticle($data)
     {
-        $date= date('Y-m-d H:i:s');
-        $userid= $_SESSION['id'];
-        $url= $this->getUrl($data['title']);
+        $date   = date('Y-m-d H:i:s');
+        $userid = $_SESSION['id'];
+        $url    = $this->getUrl($data['title']);
         
         if ($this->connect) {
-            $sql = "INSERT INTO articles(title, sub_title, content, created_at, author, url)
+            $sql  = "INSERT INTO articles(title, sub_title, content, created_at, author, url)
                     VALUES ( :title,  :sub_title, :content,  :created_at,  :author, :url)";
             $stmt = $this->connect->prepare($sql);
             $stmt->bindParam(':title', $data['title'], PDO::PARAM_STR);
@@ -127,21 +124,21 @@ class Article // extends TablesDb
         }
     }
     
-     /**
-     * редактирование статей.
+    /**
+     * редактирование статей
      * edit_articles.php
      * @param array
      */
-     public function updateArticle($post)
+    public function updateArticle($post)
     {
-        $title =$post['title'];
+        $title    = $post['title'];
         $subtitle = $post['sub_title'];
-        $text = $post['content'];
-        $id= $post['id'];
-        $date = date('Y-m-d H:i:s');
+        $text     = $post['content'];
+        $id       = $post['id'];
+        $date     = date('Y-m-d H:i:s');
         
         if ($this->connect) {
-            $sql = "UPDATE articles SET title = :title, sub_title = :sub_title, content = :content, created_at = :created_at WHERE articles . id = :id";
+            $sql  = "UPDATE articles SET title = :title, sub_title = :sub_title, content = :content, created_at = :created_at WHERE articles . id = :id";
             $stmt = $this->connect->prepare($sql);
             $stmt->bindParam(':title', $title, PDO::PARAM_STR);
             $stmt->bindParam(':sub_title', $subtitle, PDO::PARAM_STR);
@@ -153,8 +150,8 @@ class Article // extends TablesDb
         return false;
     }
     
-     /**
-     * удаление статьи.
+    /**
+     * удаление статьи
      * admin_articles.php
      * @param string
      */
@@ -163,16 +160,16 @@ class Article // extends TablesDb
         if ($this->connect) {
             $sql = "DELETE FROM articles
                     WHERE id=$id;";
-                    return $this->connect->prepare($sql)->execute();
+            return $this->connect->prepare($sql)->execute();
         }
         return false;
     }
-
-     /**
+    
+    /**
      * PRIVATE METOD for Search.
      * @param string
-     */ 
-     
+     */
+    
     private function getSearchArticle($query)
     {
         if ($this->connect) {
@@ -185,35 +182,35 @@ class Article // extends TablesDb
         }
         return false;
     }
-
+    
     /**
      * PRIVATE Url METODS.
      * @param string
-     */ 
+     */
     private function getUrl($str)
-  {
-      $articleUrl = mb_strtolower($str);
-      $articleUrl = str_replace(' ', '-', $articleUrl);
-      $articleUrl = $this->transliteration($articleUrl);
-      $articleIsset = $this->getArticleByUrl($articleUrl);
-      if (!$articleIsset) {
-          return $articleUrl;
-      } else {
-          $url = $articleIsset['url'];
-          $exUrl = explode('-', $url);
-          if ($exUrl){
-              $temp = (int)end($exUrl);
-              $newUrl = $exUrl[0] . '-'. ++$temp;
-          } else {
-              $temp = 0;
-              $newUrl = $articleUrl . '-'. ++$temp;
-          }
-          return $this->getUrl($newUrl);
-      }
-  }
-
-  private function transliteration($str)
-  {
+    {
+        $articleUrl   = mb_strtolower($str);
+        $articleUrl   = str_replace(' ', '-', $articleUrl);
+        $articleUrl   = $this->transliteration($articleUrl);
+        $articleIsset = $this->getArticleByUrl($articleUrl);
+        if (!$articleIsset) {
+            return $articleUrl;
+        } else {
+            $url   = $articleIsset['url'];
+            $exUrl = explode('-', $url);
+            if ($exUrl) {
+                $temp   = (int) end($exUrl);
+                $newUrl = $exUrl[0] . '-' . ++$temp;
+            } else {
+                $temp   = 0;
+                $newUrl = $articleUrl . '-' . ++$temp;
+            }
+            return $this->getUrl($newUrl);
+        }
+    }
+    
+    private function transliteration($str)
+    {
       $st = strtr($str,
           array(
               'а'=>'a','б'=>'b','в'=>'v','г'=>'g','д'=>'d',
@@ -240,17 +237,17 @@ class Article // extends TablesDb
       );
       $translit = $st2;
       return $translit;
-  }
-  
-  private function getArticleByUrl($str)
-  {
-      if ($this->connect) {
-          $sql = "SELECT *
+    }
+    
+    private function getArticleByUrl($str)
+    {
+        if ($this->connect) {
+            $sql = "SELECT *
                   FROM articles
                   WHERE url='$str'
                   ";
-          return $this->connect->query($sql)->fetch(PDO::FETCH_ASSOC);
-      }
-      return false;
-  }
+            return $this->connect->query($sql)->fetch(PDO::FETCH_ASSOC);
+        }
+        return false;
+    }
 }
