@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+    <meta charset="UTF-8">
+    <title>AlevelProject</title>
+    <style>
+        .main_block{
+            width: 100%;
+            height: 50px;
+            background-image:  url(http://ivox.spb.ru/templates/mochito/img/portfolio/bg_portfolio_header.jpg);
+            background-repeat: repeat;
+            position: relative;
+        }
+        .left{
+            position: absolute;
+        }
+        .right{
+            position: absolute;
+            left: 15%;
+            float: left;
+        }
+        .right2{
+            position: absolute;
+            left: 30%;
+            float: left;
+        }
+        .t {
+            color:red;
+            font-size:30px;
+            font-style: italic;
+            font-weight: bold;
+            text-shadow: 2px 2px 0px grey;
+        }
+
+        .t1 {
+            color:red;
+            font-size:20px;
+            font-style: italic;
+            font-weight: bold;
+            text-shadow: 1px 1px 0px grey;
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <div class="main_block">
+        <div class="left">
+            <span class="t "><a href="/user/register/test">Регистрация</a></span>
+        </div>
+        <div class="right">
+            <span class="t"><a href="/user/login/test">Авторизация</a></span>
+        </div>
+        <div class="right2">
+            <span class="t"><a href="/db/database/test">Домой</a></span>
+        </div>
+    </div>
+</header>
+<div class="container">
+    <div class="row">
+        <form method="post" class="form-horizontal col-md-6 col-md-offset-3" action="/user/register/test">
+            {% if errors %}
+            {%for error in errors%}
+            <p class="t1">{{error}}</p>
+            {%endfor%}
+            {%endif%}
+            <h1>Registration</h1>
+            <div class="form-group">
+                <label for="email" class="col-sm-2 control-label">Email</label>
+                <div class="col-sm-10">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" value="{{email}}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="col-sm-2 control-label">Password</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-10">
+                    <input type="name" class="form-control" id="name" name="name" placeholder="Name" value="{{name}}">
+                </div>
+            </div>
+            <button type="submit" name="submit" class="btn btn-primary col-sm-6">Registration</button>
+        </form>
+    </div>
+</div>
+<h3 style="text-align: center ">Если Вы уже регистрировались, пройдите <a href="/user/login/test">авторизацию</a>.</h3>
+
+</body>
+</html>
