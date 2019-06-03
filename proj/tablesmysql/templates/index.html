@@ -1,0 +1,133 @@
+{% extends "base.html"%}
+{% block content%}
+<header>
+    <div class="main_block">
+        <div class="left">
+            <span class="t"><a href="/user/register/test">Регистрация</a></span>
+        </div>
+        <div class="right">
+            <span class="t"><a href="/user/login/test">Авторизация</a></span>
+        </div>
+    {%if username%}
+    <div class="right1">
+        <span class="t"><a href="">Привет    {{username}}</a></span>
+    </div>
+    {%endif%}
+    </div>
+</header>
+<div  class="t">ваши базы</div>
+{%if databases is empty %}
+<a href="/db/database/test"><button>посмотреть список баз</button></a>
+{%endif%}
+<table class="simple-little-table">
+    {% for name in databases %}
+    <td>
+        <a href="/db/table/{{name}}"><button>{{name}}</button></a>
+    </td>
+    {%endfor%}
+</table>
+{% if tables  %}
+<table class="simple-little-table">
+    <th>
+        <p class="button13">База:  "{{name_database}}"</p>
+    </th>
+    <tr>
+    {% for name in tables  %}
+    <td>
+        <a href="/db/column/{{name}}/{{name_database}}"><button>{{name}}</button></a>
+    </td>
+    {%endfor%}
+    </tr>
+</table>
+{% endif %}
+{% if name_table %}
+<table  class="simple-little-table">
+    <form action='/db/insert/{{name_table}}/{{name_database}}'  method='post'>
+        <th>
+            <p class="button13">Таблица:  "{{name_table}}"</p>
+        </th>
+        <th>
+            <button type="submit" name="table" value="{{name_table}}">insert</button>
+        </th>
+        <tr>
+            {% for name in desccolumns %}
+            <td>
+                <a href="/db/item/{{name.Field}}/{{name_table}}/{{name_database}}"><p class="button13">{{name.Field}}</p></a></br>
+                {% if not name.Extra %}
+                {% if name.Default is not null and name.Default is not empty %}
+                <input  type='{{name.class}}' name='{{name.Field}}'>
+                {% else %}
+                <input  type='{{name.class}}' name='{{name.Field}}' required placeholder = "Обязательное поле">
+                {% endif %}
+                {% endif %}
+            </td>
+            {% endfor %}
+    </form>
+        </tr>
+        <tr>
+        {% for name in desccolumns %}
+            <td>
+                <p>Тип данных: {{name.Type}}</p>
+                <p>Default:   {{name.Default}}</p>
+                <p>{{name.Extra}}</p>
+                <p>{{name.Key}}</p>
+            </td>
+            {% endfor %}
+        </tr>
+</table>
+{% endif %}
+{% if nameColumn %}
+<table  class="simple-little-table">
+    <th>
+        <p class="button13">Поле:  "{{nameColumn}}"</p>
+    </th>
+    <tr>
+        {% for item in itemColumn %}
+        {% if item is not null and item is not empty %}
+        <td>{{item}}</td>
+        {%else%}
+        <td>нет данных</td>
+        {%endif%}
+        {% endfor %}
+    </tr>
+</table>
+{% endif %}
+{% if resultFromInsert %}
+<table  class="simple-little-table">
+    <tr>
+        {% for key in keys1%}
+        <th>{{key}}</th>
+        {%endfor%}
+    </tr>
+    <tr>
+        {% for array in resultFromInsert %}
+    <tr>
+        {% for item in array %}
+        {% if item is not null and item is not empty %}
+        <td>{{item}}</td>
+        {%else%}
+        <td>нет данных</td>
+        {% endif %}
+        {% endfor %}
+    </tr>
+    {%endfor%}
+    </tr>
+</table>
+{%endif%}
+{% if name_database and tables %}
+<form class="form-horizontal"  action="/db/qwery/{{name_table}}/{{name_database}}" method="post" >
+    <div class="form-group">
+        <label  class="col-sm-5 control-label t">Форма для отправки SQL-запроса (SELECT)</label>
+        <div class="col-sm-9">
+            <input type="text" required="required" name="qwery"  class="form-control" id="inputselect" placeholder="запрос">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button name="qwery_send">Отправить</button>
+        </div>
+    </div>
+</form>
+{%endif%}
+
+{% endblock %}
